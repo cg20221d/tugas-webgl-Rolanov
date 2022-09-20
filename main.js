@@ -18,7 +18,7 @@ const main = () =>{
     gl.shaderSource(vertexShaderObject, vertexShaderCode);
     gl.compileShader(vertexShaderObject); //sampai sini sudah menjadi .o
 
-    // fragmen shader
+    // fragment shader
     const fragmenShaderCode = `
     precision mediump float;
     void main(){
@@ -38,7 +38,8 @@ const main = () =>{
     gl.linkProgram(shaderProgram);
     gl.useProgram(shaderProgram);
     
-    gl.clearColor(0.5, 0.5, 0.5, 0.8); //(R G B A)
+    gl.clearColor(0.5, 0.5, 0.5, 0.8);
+    //             R    G    B    A    Abu-abu
     gl.clear(gl.COLOR_BUFFER_BIT);
     const aPosition = gl.getAttribLocation(shaderProgram, 'aPosition');
     
@@ -51,7 +52,7 @@ const main = () =>{
         gl.enableVertexAttribArray(aPosition);
         gl.drawArrays(glType, start, end);
     }
-    
+    // frame kotak
     const frame= [
         -0.9, 0.9,
         0.9, 0.9,
@@ -59,7 +60,7 @@ const main = () =>{
         -0.9, -0.9
     ];
     draw(frame, 0, 4, gl.LINE_LOOP);
-
+    // frame tebal
     const frame2 = [
         -0.9, 0.9,
         -0.8, 0.9,
@@ -82,7 +83,7 @@ const main = () =>{
         -0.9, 0.8,
     ];
     draw(frame2, 0, 15, gl.TRIANGLE_STRIP);
-
+    // angka 1
     const number1 = [
         -0.4, 0.5,
         -0.3, 0.6,
@@ -97,7 +98,7 @@ const main = () =>{
         -0.4, 0.43
     ];
     draw(number1, 0, 11, gl.LINE_LOOP); 
-
+    // angka 7
     const number7 = [
         0.1, 0.6,
         0.5, 0.6,
@@ -108,7 +109,7 @@ const main = () =>{
         0.1, 0.5
     ];
     draw(number7, 0, 7, gl.LINE_LOOP); 
-
+    // huruf O
     const letterO =[
         -0.3, -0.1,
         -0.2, -0.1,
@@ -143,7 +144,7 @@ const main = () =>{
         -0.1, -0.5
     ];
     draw(letterO, 0, 24, gl.TRIANGLE_STRIP);
-
+    // huruf R
     const letterR=[
         0.1, -0.1,
         0.2, -0.6,
