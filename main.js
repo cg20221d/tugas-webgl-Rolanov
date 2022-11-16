@@ -237,20 +237,28 @@ function main() {
     //1 Depan
     0.4, 0.5, 3,        0, 1, 0,    // Index: 30
     0.7, 1, 3,          0, 1, 0,    // Index: 31
-    1.2, 1, 3,          0, 1, 0,    // Index: 32
-    1.2, -1, 3,         0, 1, 0,    // Index: 33
+    1.1, 1, 3,          0, 1, 0,    // Index: 32
+    1.1, -1, 3,         0, 1, 0,    // Index: 33
     0.7, -1, 3,         0, 1, 0,    // Index: 34
     0.7, 0.5, 3,        0, 1, 0,    // Index: 35
 
-    //O depan luar
+    //O depan
     -2.6, 0.7, 3,       0, 1, 0,    // Index: 36
     -2.4, 1, 3,         0, 1, 0,    // Index: 37
-    -2, 1, 3,         0, 1, 0,    // Index: 38
+    -2, 1, 3,           0, 1, 0,    // Index: 38
     -1.8, 0.7, 3,       0, 1, 0,    // Index: 39
     -1.8, -0.7, 3,      0, 1, 0,    // Index: 40
-    -2, -1, 3,        0, 1, 0,    // Index: 41
+    -2, -1, 3,          0, 1, 0,    // Index: 41
     -2.4, -1, 3,        0, 1, 0,    // Index: 42
     -2.6, -0.7, 3,      0, 1, 0,    // Index: 43
+
+    //7 Depan
+    1.4, 1, 3,          0, 1, 0,    // Index: 44
+    2.2, 1, 3,          0, 1, 0,    // Index: 45
+    1.9, -1, 3,         0, 1, 0,    // Index: 46
+    1.6, -1, 3,         0, 1, 0,    // Index: 47
+    1.9, 0.7, 3,        0, 1, 0,    // Index: 48 
+    1.4, 0.7, 3,        0, 1, 0,    // Index: 49
 ];
 
     // Vertex shader
@@ -296,6 +304,8 @@ function main() {
     var thetaX = 0.0;
     var horizontalDelta = 0.0;
     var horizontalSpeed = 0.0017;
+    var scale = 0.5
+    var scaleSpeed = 0.0017; 
     // Model
     uModel = gl.getUniformLocation(shaderProgram, "uModel");
 
@@ -337,11 +347,49 @@ function main() {
         letterO();
         letterR();
         number1();
-        // digit7();
+        number7();
 
     requestAnimationFrame(render);
     }
     requestAnimationFrame(render);
+
+    function number7() {
+        var indices = [
+            // depan
+            44, 45, 48,     49, 48, 45,
+            44, 48, 49,     45, 46, 47,
+            47, 48, 45
+        ];
+    
+        var aPosition = gl.getAttribLocation(shaderProgram, "aPosition");
+        gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false,
+            6 * Float32Array.BYTES_PER_ELEMENT,
+            0);
+        gl.enableVertexAttribArray(aPosition);
+    
+        var aColor = gl.getAttribLocation(shaderProgram, "aColor");
+        gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false,
+            6 * Float32Array.BYTES_PER_ELEMENT,
+            3 * Float32Array.BYTES_PER_ELEMENT);
+        gl.enableVertexAttribArray(aColor);
+    
+        var buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    
+        var indexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+    
+        model = glMatrix.mat4.create();
+        glMatrix.mat4.translate(
+            model, model, [horizontalDelta, 0.0, 0.0]
+        );
+        gl.uniformMatrix4fv(uModel, false, model);
+        gl.uniformMatrix4fv(uView, false, view);
+        gl.uniformMatrix4fv(uProjection, false, perspective);
+        gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+    }
 
 function number1() {
     var indices = [
@@ -384,6 +432,7 @@ function number1() {
     gl.uniformMatrix4fv(uProjection, false, perspective);
     gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 }
+
 function letterR() {
     var indices = [
         // depan
