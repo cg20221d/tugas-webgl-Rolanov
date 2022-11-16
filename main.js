@@ -237,8 +237,8 @@ function main() {
     //1 Depan
     0.4, 0.5, 3,        0, 1, 0,    // Index: 30
     0.7, 1, 3,          0, 1, 0,    // Index: 31
-    1.1, 1, 3,          0, 1, 0,    // Index: 32
-    1.1, -1, 3,         0, 1, 0,    // Index: 33
+    1, 1, 3,          0, 1, 0,    // Index: 32
+    1, -1, 3,         0, 1, 0,    // Index: 33
     0.7, -1, 3,         0, 1, 0,    // Index: 34
     0.7, 0.5, 3,        0, 1, 0,    // Index: 35
 
@@ -305,7 +305,7 @@ function main() {
     var horizontalDelta = 0.0;
     var horizontalSpeed = 0.0017;
     var scale = 0.5
-    var scaleSpeed = 0.0017; 
+    var scaleSpeed = 0.02; 
     // Model
     uModel = gl.getUniformLocation(shaderProgram, "uModel");
 
@@ -380,10 +380,15 @@ function main() {
         var indexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+            
+        scale += scaleSpeed;
+        if (scale > 2 || scale < 0.5) {
+            scaleSpeed *= -1;
+        }
     
         model = glMatrix.mat4.create();
-        glMatrix.mat4.translate(
-            model, model, [horizontalDelta, 0.0, 0.0]
+        glMatrix.mat4.scale(
+            model, model, [scale, scale, scale]
         );
         gl.uniformMatrix4fv(uModel, false, model);
         gl.uniformMatrix4fv(uView, false, view);
