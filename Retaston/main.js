@@ -142,6 +142,10 @@ function main() {
     var thetaY = 0.0;
     var thetaXSpeed = 0.0;
     var thetaX = 0.0;
+    var thetaZCube = 0.0;
+    var thetaZCubeDelta = 0.0;
+    var horizontalCube = 0.0;
+    var horizontalCubeDelta = 0.0;
     var horizontalDelta = 0.0;
     var horizontalSpeed = 0.0017;
     var scale = 0.5
@@ -171,10 +175,16 @@ function main() {
         if (event.keyCode == 39) thetaYSpeed = 0.05;
         if (event.keyCode == 38) thetaXSpeed = -0.05;
         if (event.keyCode == 40) thetaXSpeed = 0.05;
+        if (event.keyCode == 73) thetaZCube = 0.05;   // I, maju
+        if (event.keyCode == 75) thetaZCube = -0.05;   // K, mundur
+        if (event.keyCode == 74) horizontalCube = -0.05; ;   // J, kiri
+        if (event.keyCode == 76) horizontalCube = 0.05;;   // L, kanan
     }
     function onKeyup(event) {
         if (event.keyCode == 37 || event.keyCode == 39) thetaYSpeed = 0.0;
         if (event.keyCode == 38 || event.keyCode == 40) thetaXSpeed = 0.0;
+        if (event.keyCode == 74 || event.keyCode == 76) horizontalCube = 0.0;
+        if (event.keyCode == 73 || event.keyCode == 75) thetaZCube = 0.0;
     }
     document.addEventListener("keydown", onKeydown);
     document.addEventListener("keyup", onKeyup);
@@ -408,8 +418,12 @@ function main() {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
         
-        thetaY += thetaYSpeed;
+        horizontalCubeDelta += horizontalCube;
+        thetaZCubeDelta += thetaZCube;
         model = glMatrix.mat4.create();
+        glMatrix.mat4.translate(
+            model, model, [horizontalCubeDelta, 0.0, thetaZCubeDelta]
+        );
 
         gl.uniformMatrix4fv(uModel, false, model);
         gl.uniformMatrix4fv(uView, false, view);
