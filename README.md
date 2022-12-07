@@ -9,9 +9,9 @@ NRP : 5025201017 </br>
 String : OR & 17
 
 ## Hasil Retaston
-Objek yang dipilih : R & 1
-Objek yang dihapus : O & 7
-1. Cube jauh dari objek
+Objek yang dipilih : R & 1 <br>
+Objek yang dihapus : O & 7 <br>
+1. Cube jauh dari objek<br>
 ![cube_far](https://user-images.githubusercontent.com/99122278/206145634-657de975-d279-432e-a78e-6d7ab07a626a.png)
 2. Cube dekat dari objek dan berada ditengah
 ![cube_near_center](https://user-images.githubusercontent.com/99122278/206146130-e0f21aa4-b18d-4a98-9708-e72cf65043b4.png)
