@@ -122,8 +122,12 @@ function main() {
     var fragmentShaderCode = `
     precision mediump float;
     varying vec3 vColor;
+    uniform vec3 uAmbientConstant;      // merepresentasikan warna sumber cahaya
+    uniform float uAmbientIntensity;    // merepresentasikan intensitas cahaya sekitar
     void main() {
-        gl_FragColor = vec4(vColor, 1.0);
+        vec3 ambient = uAmbientConstant * uAmbientIntensity;
+        vec3 phong = ambient;
+        gl_FragColor = vec4(phong * vColor, 1.0);
     }
     `;
     var fragmentShaderObject = gl.createShader(gl.FRAGMENT_SHADER);
@@ -191,7 +195,7 @@ function main() {
 
     function render() {
         gl.enable(gl.DEPTH_TEST);
-        gl.clearColor(0.5, 0.5, 0.5, 1.0);
+        gl.clearColor(0.3, 0.3, 0.3, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         letterR();
@@ -221,6 +225,11 @@ function main() {
             6 * Float32Array.BYTES_PER_ELEMENT,
             3 * Float32Array.BYTES_PER_ELEMENT);
         gl.enableVertexAttribArray(aColor);
+
+        var uAmbientConstant = gl.getUniformLocation(shaderProgram, "uAmbientConstant");
+        var uAmbientIntensity = gl.getUniformLocation(shaderProgram, "uAmbientIntensity");
+        gl.uniform3fv(uAmbientConstant, [1.0, 1.0, 1.0]);   // warna sumber cahaya: oranye
+        gl.uniform1f(uAmbientIntensity, 0.317);               // intensitas cahaya: 40%
     
         var buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -264,6 +273,11 @@ function main() {
             6 * Float32Array.BYTES_PER_ELEMENT,
             3 * Float32Array.BYTES_PER_ELEMENT);
         gl.enableVertexAttribArray(aColor);
+
+        var uAmbientConstant = gl.getUniformLocation(shaderProgram, "uAmbientConstant");
+        var uAmbientIntensity = gl.getUniformLocation(shaderProgram, "uAmbientIntensity");
+        gl.uniform3fv(uAmbientConstant, [1.0, 1.0, 1.0]);   // warna sumber cahaya: oranye
+        gl.uniform1f(uAmbientIntensity, 0.317);               // intensitas cahaya: 40%
 
         var buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -329,6 +343,11 @@ function main() {
             6 * Float32Array.BYTES_PER_ELEMENT,
             3 * Float32Array.BYTES_PER_ELEMENT);
         gl.enableVertexAttribArray(aColor);
+
+        var uAmbientConstant = gl.getUniformLocation(shaderProgram, "uAmbientConstant");
+        var uAmbientIntensity = gl.getUniformLocation(shaderProgram, "uAmbientIntensity");
+        gl.uniform3fv(uAmbientConstant, [1.0, 1.0, 1.0]);   // warna sumber cahaya: oranye
+        gl.uniform1f(uAmbientIntensity, 0.317);               // intensitas cahaya: 40%
 
         var buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -409,7 +428,12 @@ function main() {
             6 * Float32Array.BYTES_PER_ELEMENT,
             3 * Float32Array.BYTES_PER_ELEMENT);
         gl.enableVertexAttribArray(aColor);
-
+        
+        var uAmbientConstant = gl.getUniformLocation(shaderProgram, "uAmbientConstant");
+        var uAmbientIntensity = gl.getUniformLocation(shaderProgram, "uAmbientIntensity");
+        gl.uniform3fv(uAmbientConstant, [1.0, 1.0, 1.0]);   // warna sumber cahaya: oranye
+        gl.uniform1f(uAmbientIntensity, 0.317);
+        
         var buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
